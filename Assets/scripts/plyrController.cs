@@ -9,12 +9,12 @@ public class plyrController : MonoBehaviour
 	private Animator myAnim;
 	private bool facingRight;
 	private bool grounded = false;
-	private bool jmp2 = false;
 	//overlap circle to check if on ground
-	private float groundCheckRadius = 0.2f;
+	public float groundCheckRadius = 0.2f;
 	public LayerMask groundLayer;
 	public Transform groundCheck;
 	public float jmpHeight;
+    private Collider2D selfCollider;
 	
 
 	// Use this for initialization
@@ -22,7 +22,8 @@ public class plyrController : MonoBehaviour
 	{
 		myRB = GetComponent<Rigidbody2D>();
 		myAnim = GetComponent<Animator>();
-		facingRight = true;
+        selfCollider = GetComponent<Collider2D>();
+        facingRight = true;
 	}
 	
 	// Update is called once per frame
@@ -30,9 +31,9 @@ public class plyrController : MonoBehaviour
 		
 		if (grounded && Input.GetAxis("Jump") > 0)
 		{
-			myAnim.SetBool("isGrounded",false);
+            Debug.Log("JUMP");
+			//myAnim.SetBool("isGrounded",false);
 			myRB.AddForce(new Vector2(0,jmpHeight));
-			jmp2 = true;
 			grounded = false;
 		}
 		/*else if (!grounded && jmp2 && Input.GetAxis("Jump") > 0)
@@ -46,11 +47,12 @@ public class plyrController : MonoBehaviour
 	//physics engine works after each fixed update
 	void FixedUpdate ()
 	{
-		//check if grounded
-		grounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
-		myAnim.SetBool("isGrounded",grounded);
+        //check if grounded
+        var hit = Physics2D.Raycast(selfCollider.bounds.min, Vector2.down, 0.1F);
+        grounded = hit.collider != null;
+		//myAnim.SetBool("isGrounded",grounded);
 		
-		myAnim.SetFloat("verticalSpeed",myRB.velocity.y);
+		//myAnim.SetFloat("verticalSpeed",myRB.velocity.y);
 		
 		float move = Input.GetAxis("Horizontal");
 		
@@ -66,7 +68,7 @@ public class plyrController : MonoBehaviour
 		}
 		
 		//animation
-		myAnim.SetFloat("speed",Mathf.Abs(move));
+		//myAnim.SetFloat("speed",Mathf.Abs(move));
 	}
 
 	void flip()
