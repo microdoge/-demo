@@ -33,13 +33,25 @@ public class Character2DController : MonoBehaviour
     {
 
     }
+
+    bool hitOther(RaycastHit2D[] hits)
+    {
+        if (hits.Length == 0 || hits.Length == 1 && hits[0].collider == selfCollider)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
     //always be called after specific amount of time
     //physics engine works after each fixed update
     void FixedUpdate()
     {
         //check if grounded
         var hits = Physics2D.BoxCastAll(selfCollider.bounds.center, selfCollider.bounds.size, 0, Vector2.down, 0.1F);
-        if (hits.Length == 0 || hits.Length == 1 && hits[0].collider == selfCollider)
+        if (!hitOther(hits))
         {
             grounded = false;
         }
@@ -51,17 +63,20 @@ public class Character2DController : MonoBehaviour
 
         float move = Input.GetAxis("Horizontal");
 
-        //move
-        selfRigidBody.velocity = new Vector2(move * maxSpeed, selfRigidBody.velocity.y);
+        var faceRight = move > 0;
         //flip directions
-        if (move > 0 && !facingRight)
-        {
+        if (faceRight ^ facingRight)
             flip();
-        }
-        else if (move < 0 && facingRight)
+
+        var dir = faceRight ? Vector2.right : Vector2.left;
+
+        hits = Physics2D.BoxCastAll(selfCollider.bounds.center, selfCollider.bounds.size, 0, dir, 0.1F);
+        if (!hitOther(hits))
         {
-            flip();
+            //move
+            selfRigidBody.velocity = new Vector2(move * maxSpeed, selfRigidBody.velocity.y);
         }
+
 
         if (Input.GetKeyDown(KeyCode.Space)) // this should be generic jump key later
         {
