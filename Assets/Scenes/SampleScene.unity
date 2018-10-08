@@ -366,6 +366,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   character: {fileID: 1731553371}
   stretchDistance: 0
+  dampTime: 0.15
 --- !u!1 &1115060756
 GameObject:
   m_ObjectHideFlags: 0
@@ -561,6 +562,30 @@ Prefab:
         type: 2}
       propertyPath: groundLayer.m_Bits
       value: 51
+      objectReference: {fileID: 0}
+    - target: {fileID: 61440627762878150, guid: 44afef237b5ad1d4bbd495b16d75a194,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 50988804738310240, guid: 44afef237b5ad1d4bbd495b16d75a194,
+        type: 2}
+      propertyPath: m_Interpolate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 50988804738310240, guid: 44afef237b5ad1d4bbd495b16d75a194,
+        type: 2}
+      propertyPath: m_Constraints
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1365436839595352, guid: 44afef237b5ad1d4bbd495b16d75a194, type: 2}
+      propertyPath: m_Name
+      value: Character
+      objectReference: {fileID: 0}
+    - target: {fileID: 114126541802246412, guid: 44afef237b5ad1d4bbd495b16d75a194,
+        type: 2}
+      propertyPath: jumpForce
+      value: 300
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44afef237b5ad1d4bbd495b16d75a194, type: 2}
