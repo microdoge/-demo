@@ -16,6 +16,8 @@ public class Character2DController : MonoBehaviour
     public float jumpForce;
     private Collider2D selfCollider;
 
+    private bool running;
+
     private bool doubleJump = false;
 
 
@@ -65,15 +67,13 @@ public class Character2DController : MonoBehaviour
 
         var faceRight = move > 0;
         //flip directions
-        if (faceRight ^ facingRight)
-            flip();
+        if (faceRight ^ facingRight) flip();
 
         var dir = faceRight ? Vector2.right : Vector2.left;
 
         hits = Physics2D.BoxCastAll(selfCollider.bounds.center, selfCollider.bounds.size, 0, dir, 0.1F);
         if (!hitOther(hits))
         {
-            //move
             selfRigidBody.velocity = new Vector2(move * maxSpeed, selfRigidBody.velocity.y);
         }
 

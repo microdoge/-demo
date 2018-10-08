@@ -3,28 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class sceneChange : MonoBehaviour
+public class SceneChange : MonoBehaviour
 {
-	public string loadLevel;
+    public string loadLevel;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    // Use this for initialization
+    void Start()
+    {
 
-	private void OnTriggerEnter2D(Collider2D other)
-	{
-		if (other.CompareTag("Player"))
-		{
-			SceneManager.LoadScene(loadLevel);
-		}
+    }
 
-		//throw new System.NotImplementedException();
-		
-	}
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+    void OnTriggerEnter2D(Collider2D trigger)
+    {
+        if (trigger.CompareTag("Player"))
+        {
+            SceneManager.LoadScene(loadLevel);
+        }
+    }
 }
