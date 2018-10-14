@@ -20,6 +20,8 @@ public class Character2DController : MonoBehaviour
 
     private bool doubleJump = false;
 
+    private float lastTickMovingRight = 0;
+    private float lastTickMovingLeft = 0;
 
     // Use this for initialization
     void Start()
@@ -67,13 +69,40 @@ public class Character2DController : MonoBehaviour
 
         var faceRight = move > 0;
         //flip directions
-        if (faceRight ^ facingRight) flip();
+        if (faceRight ^ facingRight && move != 0) flip();
 
         var dir = faceRight ? Vector2.right : Vector2.left;
+
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            if (lastTickMovingRight != 0)
+                if (Time.time - lastTickMovingRight < 0.7F)
+                {
+                    running = true;
+                }
+            lastTickMovingRight = Time.time;
+        }
+
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            if (lastTickMovingLeft != 0)
+                if (Time.time - lastTickMovingLeft < 0.7F)
+                {
+                    running = true;
+                }
+            lastTickMovingLeft = Time.time;
+        }
+
+        if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D))
+        {
+            running = false;
+        }
+
 
         hits = Physics2D.BoxCastAll(selfCollider.bounds.center, selfCollider.bounds.size, 0, dir, 0.1F);
         if (!hitOther(hits))
         {
+            if (running) move *= 2;
             selfRigidBody.velocity = new Vector2(move * maxSpeed, selfRigidBody.velocity.y);
         }
 
